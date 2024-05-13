@@ -1,47 +1,56 @@
-//carry select adder
-module CSA_16bit #(parameter n =4) 
-(
-input [2 ** n-1:0] A, 
-input [2 ** n-1:0] B,
-input Cin, 
-input clk, 
-output [2 ** n-1:0] result, 
-output Cout
-);
-
-wire [n-1:0] w_CARRY_0;
-wire [n-1:0] w_CARRY_1;
-wire [n:0] w_CARRY;
-wire [n-1:0] w_SUM_0[n-1:0];
-wire [n-1:0] w_SUM_1[n-1:0];
-
-assign w_CARRY[0]=Cin;
-
-genvar ii; 
-
-
-generate
-
-
-    for (ii=0; ii<n; ii=ii+1)
-    begin
-
-    register r0(.clk(clk),.rst(rst),.D({A[ii*n+3:11*n] + B[11*n+3:11*n]}),.Q({w CARRY_ 0[1i],w SUM_0[11]}));
-    register r1(.clk(clk),.rst(rst),.D({A[ii*n+3:11*n] + B[ii*n+3:ii*n] + 1'b1}),.Q({w_CARRY_1[ii],w_SUM_1[ii]}));
-    register r2(.clk(clk),.rst(rst),.D({A[ii*n+3:11*n] + B[ii*n+3:ii*n] + 1'b1}),.Q({w_CARRY_1[ii],w_SUM_1[ii]}));
-    register r3(.clk(clk),.rst(rst),.D((w_CARRY[ii] == 1'b0) ? W_CARRY_1[ii] : w_CARRY_0[ii]),.Q({w_CARRY[ii+1]}));
-    
-
-//    assign {w_CARRY_0[ii],w_SUM_0[ii]} =A[ii*n+3:ii*n] + B[ii*n+3:ii*n];
-//    assign {w_CARRY_1[ii],w_SUM_1[ii]} =A[ii*n+3:ii*n] + B[ii*n+3:ii*n] + 1'b1;
-//    assign result[ii*n+3:ii*n] = (Cin == 1'b1) ? w_SUM_1[ii] : w_SUM_0[ii];
-//    assign w_CARRY[ii+1] =(w_CARRY[ii] == 1'b1) ? w_CARRY_1[ii] : w_CARRY_0[ii];
-
-    end
-   
+module register #(parameter n=16)(
   
-endgenerate
+  input clk,
+  input rst,
+  input [n-1:0] D,  
+  
+  output reg [n-1:0]Q
+  
+);
+  
+  always @(*)begin 
+    
+    if (rst)begin 
+      Q=0; 
+      
+    end
+    
+    else begin 
+      
+      Q=D;
+      
+    end 
+    
+  end 
+  
+  
+endmodule
 
-assign Cout = w_CARRY[n];
 
-endmodule // carry-select adder
+module register #(parameter n=16)(
+  
+  input clk,
+  input rst,
+  input [n-1:0] D,  
+  
+  output reg [n-1:0]Q
+  
+);
+  
+  always @(*)begin 
+    
+    if (rst)begin 
+      Q=0; 
+      
+    end
+    
+    else begin 
+      
+      Q=D;
+      
+    end 
+    
+  end 
+  
+  
+endmodule
